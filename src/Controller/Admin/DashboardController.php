@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Faq;
 use App\Entity\Post;
 use App\Entity\Training;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -33,5 +34,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Gestion des pages', 'fas fa-newspaper', Post::class);
         yield MenuItem::linkToCrud('Gestion des formations', 'fas fa-rocket', Training::class);
         yield MenuItem::linkToCrud('Gestion des FAQ', 'fas fa-question', Faq::class);
+        yield MenuItem::linkToCrud('Gestion des utilisateur', 'fas fa-users', User::class);
     }
 }
