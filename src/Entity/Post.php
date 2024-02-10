@@ -7,8 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[Vich\Uploadable]
 class Post
 {
     #[ORM\Id]
@@ -40,10 +43,30 @@ class Post
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $meta = null;
 
+    #[Vich\UploadableField(mapping: 'images', fileNameProperty: 'image')]
+    private ?File $imageFile = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
-        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+        $this->slug = "toto";
+    }
+
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
     }
 
     public function getId(): ?int

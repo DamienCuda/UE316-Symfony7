@@ -3,6 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Category;
+use App\Entity\Faq;
+use App\Entity\Post;
+use App\Entity\Training;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -20,12 +23,15 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('UE316 Symfony7');
+            ->setTitle('GDU Campus');
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
         yield MenuItem::linkToCrud('Gestion des catégories', 'fas fa-list', Category::class);
+        yield MenuItem::linkToCrud('Gestion des pages', 'fas fa-newspaper', Post::class);
+        yield MenuItem::linkToCrud('Gestion des formations', 'fas fa-rocket', Training::class);
+        yield MenuItem::linkToCrud('Gestion des FAQ', 'fas fa-question', Faq::class);
     }
 }
