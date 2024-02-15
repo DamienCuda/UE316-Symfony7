@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Contact;
-use App\Form\ContactFormType;
+use App\Form\ContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -17,7 +17,7 @@ class ContactController extends AbstractController
     public function contact(Request $request, MailerInterface $mailer)
     {
         $contact = new Contact();
-        $form = $this->createForm(ContactFormType::class, $contact);
+        $form = $this->createForm(ContactType::class, $contact);
 
         $form->handleRequest($request);
 
@@ -29,10 +29,11 @@ class ContactController extends AbstractController
 
             $mailer->send($message);
 
-            $this->addFlash('success', 'Votre message a été envoyé avec succès.');
+            $this->addFlash('success', '');
 
             return $this->redirectToRoute('app_contact_index');
         }
+
 
         return $this->render('contact/index.html.twig', [
             'form' => $form->createView(),

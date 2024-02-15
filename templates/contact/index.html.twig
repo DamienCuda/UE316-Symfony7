@@ -14,13 +14,7 @@
 {{ form_end(form)}}
 
 {% if app.flashes('success') is not empty %}
-<div class="alert alert-success">
-    <ul>
-        {% for message in app.flashes('success') %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-</div>
+<p class="alert alert-success">Votre message a été envoyé avec succès.</p>
 {% endif %}
 
 {% endblock %}
