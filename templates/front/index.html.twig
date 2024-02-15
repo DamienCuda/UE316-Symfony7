@@ -3,5 +3,38 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-<h2>Hello World !</h2>
+<h2>Les derniers articles</h2>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for post in latestPosts %}
+    <div class="col">
+        <div class="card shadow-sm">
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
+                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>{{ post.title }}</title>
+                <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{
+                    post.title }}</text>
+            </svg>
+
+            <div class="card-body">
+                <p class="card-text">{{ post.meta }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="{{ path('app_post_show', {'slug': post.slug}) }}"
+                            class="btn btn-sm btn-outline-secondary">En savoir plus</a>
+                        {% if app.user %}
+                        <a href="{{ path('app_post_edit', {'slug': post.slug}) }}"
+                            class="btn btn-sm btn-outline-secondary">Modifier</a>
+                        {% endif %}
+                    </div>
+                    <small class="text-muted">{{ post.updatedAt ? post.updatedAt|date('d-m-Y') : '' }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p>Aucun article récent</p>
+    {% endfor %}
+</div>
+</div>
 {% endblock %}
