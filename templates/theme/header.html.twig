@@ -11,9 +11,9 @@
                 <li><a href="/" class="nav-link px-2 text-white">Accueil</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">Présentation</a></li>
                 <li><a href="/post" class="nav-link px-2 text-white">Articles</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Contact</a></li>
+                <li><a href="/contact" class="nav-link px-2 text-white">Contact</a></li>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <li><a href="/admin" class="nav-link px-2 text-white">Admin</a></li>
+                    <li><a href="/admin" class="nav-link px-2 text-white">Dashboard</a></li>
                 {% endif %}
             </ul>
 
@@ -24,10 +24,10 @@
                     <a href="{{ path('app_logout') }}" class="nav-link px-2">Déconnexion</a>
                     {% else %}
                     <a href="/login" class="nav-link px-2">Connexion</a>
-                    {% endif %}
                 </button>
                 <button type="button" class="btn btn-warning"><a href="/register"
                         class="nav-link px-2">Inscription</a></button>
+                    {% endif %}
             </div>
         </div>
     </div>
