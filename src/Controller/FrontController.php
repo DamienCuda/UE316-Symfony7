@@ -17,16 +17,4 @@ class FrontController extends AbstractController
             'latestPosts' => $latestPosts,
         ]);
     }
-    #[Route('/notre-methode-pedagogique', name: 'app_methode')]
-    public function method(): Response
-    {
-        return $this->render('front/method.html.twig', [
-        ]);
-    }
-    #[Route('/partenaire', name: 'app_partner')]
-    public function partner(): Response
-    {
-        return $this->render('front/partner.html.twig', [
-        ]);
-    }
 }
