@@ -22,14 +22,23 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('GDU Campus');
+            ->setTitle('Symfony Project');
     }
 
     public function configureMenuItems(): iterable
-    {
+    {   
+        
+        yield MenuItem::section('Dashboard');
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-home');
+        
+        yield MenuItem::section('Articles');
         yield MenuItem::linkToCrud('Gestion des catégories', 'fas fa-list', Category::class);
         yield MenuItem::linkToCrud('Gestion des pages', 'fas fa-newspaper', Post::class);
+        
+        yield MenuItem::section('Utilisateurs');
         yield MenuItem::linkToCrud('Gestion des utilisateur', 'fas fa-users', User::class);
+        
+        yield MenuItem::section('Site');
+        yield MenuItem::linkToRoute('Accueil', 'fa fa-home', 'app_front');
     }
 }
