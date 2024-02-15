@@ -24,14 +24,11 @@ class Category
 
     #[ORM\ManyToMany(targetEntity: Post::class, mappedBy: 'categories')]
     private Collection $posts;
-
-    #[ORM\ManyToMany(targetEntity: Training::class, mappedBy: 'categories')]
-    private Collection $trainings;
+   
 
     public function __construct()
     {
         $this->posts = new ArrayCollection();
-        $this->trainings = new ArrayCollection();
     }
 
     public function getId(): ?int
