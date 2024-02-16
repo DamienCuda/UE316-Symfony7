@@ -1,50 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Post{% endblock %}
+{% block title %}Article : {{ post.title }}{% endblock %}
 
 {% block body %}
-    <h1>Post</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ post.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ post.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ post.content }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ post.slug }}</td>
-            </tr>
-            <tr>
-                <th>IsActu</th>
-                <td>{{ post.isActu ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ post.image }}</td>
-            </tr>
-            <tr>
-                <th>Meta</th>
-                <td>{{ post.meta }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="row">
+    <div class="col-md-8">
+        {% if post.image is not null and post.image != 'null' %}
+        <img src="{{ post.image }}" alt="Image de l'article" class="img-fluid mb-3">
+        {% else %}
+        <img src="https://picsum.photos/800/400" alt="Image de l'article" class="img-fluid mb-3">
+        {% endif %}
+        <h1>{{ post.title }}</h1>
+        <p class="text-muted">{{ post.updatedAt ? post.updatedAt|date('d-m-Y') : '' }}</p>
+        <p>{{ post.content }}</p>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
 
-    <a href="{{ path('app_post_index') }}" class="btn btn-sm btn-outline-secondary">Retour à la liste</a>
-    {% if is_granted('ROLE_ADMIN') %}
-    <a href="{{ path('app_post_edit', {'slug': post.slug}) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
-    {% endif %}
-    {{ include('post/_delete_form.html.twig') }}
+<div id="commentaire">
+
+</div>
+
+
+<a href="{{ path('app_post_index') }}" class="btn btn-sm btn-outline-secondary">Retour à la liste</a>
+{% if is_granted('ROLE_ADMIN') %}
+<a href="{{ path('app_post_edit', {'slug': post.slug}) }}" class="btn btn-sm btn-outline-secondary">Modifier</a>
+{% endif %}
+{{ include('post/_delete_form.html.twig') }}
 {% endblock %}

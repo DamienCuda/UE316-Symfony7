@@ -38,8 +38,10 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/category/(?P<slug>.+)/edit, roles: ROLE_ADMIN }
          - { path: ^/category/new, roles: ROLE_ADMIN }
-         - { path: ^/post/new, roles: ROLE_USER }
+         - { path: ^/post/(?P<slug>.+)/edit, roles: ROLE_ADMIN }
+         - { path: ^/post/new, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
