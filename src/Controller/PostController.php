@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Entity\Comment;
+use App\Form\CommentType;
 
 #[Route('/post')]
 class PostController extends AbstractController
@@ -51,11 +53,31 @@ class PostController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'app_post_show', methods: ['GET'])]
-    public function show(Post $post): Response
+    #[Route('/{slug}', name: 'app_post_show', methods: ['GET', 'POST'])]
+    public function show(Post $post, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentType::class, $comment);
+        $commentForm->handleRequest($request);
+
+        $commentsList = $entityManager->getRepository(Comment::class)->findBy(['post' => $post]);
+
+        if($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $comment->setUser($this->getUser());
+            $comment->setPost($post);
+            $comment->setContent($commentForm->get('content')->getData());
+            $entityManager->persist($comment);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_post_show', ['slug' => $post->getSlug()], Response::HTTP_SEE_OTHER);
+        }
+        
+        $currentUser = $this->getUser();
+
         return $this->render('post/show.html.twig', [
             'post' => $post,
+            'form' => $commentForm,
+            'comments' => $commentsList,
+            'user' => $currentUser,
         ]);
     }
 

@@ -32,4 +32,13 @@ class SluggerSubscriber implements EventSubscriberInterface
         }
     }
 
+    public function updatedSlug(BeforeEntityUpdatedEvent $event)
+    {
+        $entity = $event->getEntityInstance();
+        if($entity instanceof Post){
+            $slug = strtolower($this->slugger->slug($entity->getTitle()));
+            $entity->setSlug($slug);
+        }
+    }
+
 }

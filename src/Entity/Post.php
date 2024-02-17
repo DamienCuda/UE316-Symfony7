@@ -46,11 +46,15 @@ class Post
     #[Vich\UploadableField(mapping: 'images', fileNameProperty: 'image')]
     private ?File $imageFile = null;
 
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post')]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->updatedAt = new \DateTimeImmutable();
         $this->slug = "toto";
+        $this->comments = new ArrayCollection();
     }
 
     public function setImageFile(?File $imageFile = null): void
@@ -178,6 +182,36 @@ class Post
     public function setMeta(?string $meta): static
     {
         $this->meta = $meta;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getPost() === $this) {
+                $comment->setPost(null);
+            }
+        }
 
         return $this;
     }
