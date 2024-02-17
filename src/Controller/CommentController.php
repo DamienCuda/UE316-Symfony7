@@ -14,17 +14,11 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/comment')]
 class CommentController extends AbstractController
 {
-    #[Route('/', name: 'app_comment_index', methods: ['GET'])]
-    public function index(CommentRepository $commentRepository): Response
-    {
-        return $this->render('comment/index.html.twig', [
-            'comments' => $commentRepository->findAll(),
-        ]);
-    }
 
     #[Route('/{id}/edit', name: 'app_comment_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
     {
+        if($this->getUser() === null) return $this->redirectToRoute('app_login');
 
         if($comment->getUser()->getId() !== $this->getUser()->getId()) {
             return $this->redirectToRoute('app_post_show', ['slug' => $comment->getPost()->getSlug()], Response::HTTP_SEE_OTHER);
@@ -49,6 +43,8 @@ class CommentController extends AbstractController
     #[Route('/{id}/delete', name: 'app_comment_delete', methods: ['GET'])]
     public function delete(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
     {
+        if($this->getUser() === null) return $this->redirectToRoute('app_login');
+        
         if($comment->getUser()->getId() !== $this->getUser()->getId()) {
             return $this->redirectToRoute('app_post_show', ['slug' => $comment->getPost()->getSlug()], Response::HTTP_SEE_OTHER);
         }

@@ -63,6 +63,8 @@ class PostController extends AbstractController
         $commentsList = $entityManager->getRepository(Comment::class)->findBy(['post' => $post]);
 
         if($commentForm->isSubmitted() && $commentForm->isValid()) {
+            if($this->getUser() === null) return $this->redirectToRoute('app_login');
+
             $comment->setUser($this->getUser());
             $comment->setPost($post);
             $comment->setContent($commentForm->get('content')->getData());
@@ -76,8 +78,8 @@ class PostController extends AbstractController
         return $this->render('post/show.html.twig', [
             'post' => $post,
             'form' => $commentForm,
-            'comments' => $commentsList,
-            'user' => $currentUser,
+            'comments' => $commentsList?: null,
+            'user' => $currentUser?: null,
         ]);
     }
 
