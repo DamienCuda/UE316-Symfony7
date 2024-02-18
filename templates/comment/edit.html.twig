@@ -6,7 +6,5 @@
     <h1>Édition d'un commentaire</h1>
 
     {{ include('comment/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-
-    <a href="{{ path('app_post_show', {'slug': post.slug}) }}" class="btn btn-secondary" style="margin-top: 5px;">Retour à l'article</a>
     <a href="{{ path('app_comment_delete', {'id': comment.getId()}) }}" class="btn btn-danger" style="margin-top: 5px;">Supprimer</a>
 {% endblock %}
