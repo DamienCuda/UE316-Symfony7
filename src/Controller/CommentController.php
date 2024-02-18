@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Report;
 use App\Form\CommentType;
+use App\Form\ReportType;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,5 +55,35 @@ class CommentController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_post_show', ['slug' => $comment->getPost()->getSlug()], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/report', name: 'app_comment_report', methods: ['GET', 'POST'])]
+    public function report(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
+    {
+        if($this->getUser() === null) return $this->redirectToRoute('app_login');
+        
+        if($comment->getUser()->getId() === $this->getUser()->getId())
+            return $this->redirectToRoute('app_post_show', ['slug' => $comment->getPost()->getSlug()], Response::HTTP_SEE_OTHER);
+        
+        
+
+        $report = new Report();
+        $form = $this->createForm(ReportType::class, $report);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $report->setUser($this->getUser());
+            $report->setComment($comment);
+            $report->setReason($form->get('reason')->getData());
+            $entityManager->persist($report);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_post_show', ['slug' => $comment->getPost()->getSlug()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('report/new.html.twig', [
+            'comment' => $comment,
+            'post' => $comment->getPost(),
+            'form' => $form,
+        ]);
     }
 }

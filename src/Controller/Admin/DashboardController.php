@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Comment;
+use App\Entity\Report;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -36,6 +37,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Gestion des catégories', 'fas fa-list', Category::class);
         yield MenuItem::linkToCrud('Gestion des articles', 'fas fa-newspaper', Post::class);
         yield MenuItem::linkToCrud('Gestion des commentaires', 'fas fa-comment', Comment::class);
+        yield MenuItem::linkToCrud('Gestion des signalements', 'fas fa-flag', Report::class);
         
         yield MenuItem::section('Utilisateurs');
         yield MenuItem::linkToCrud('Gestion des utilisateurs', 'fas fa-users', User::class);

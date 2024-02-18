@@ -29,9 +29,16 @@
 {% for comment in comments %}
     <div style="display: block;margin-top: 20px;">
         <p style="display:inline"><b>{{ comment.getUser().getFirstName() }}</b>&nbsp;&nbsp;{{ comment.content }}</p>
+
         {% if comment.getUser() == user %}
-            <a href="{{ path('app_comment_delete', {'id': comment.getId()}) }}" class="btn btn-danger" style="float:right;margin: 0;">Supprimer</a>
-            <a href="{{ path('app_comment_edit', {'id': comment.getId()}) }}" class="btn btn-primary" style="float:right;margin: 0; margin-right: 5px;">Modifier</a>
+        <a href="{{ path('app_comment_delete', {'id': comment.getId()}) }}" class="btn btn-danger" style="float:right;margin: 0;">Supprimer</a>
+        <a href="{{ path('app_comment_edit', {'id': comment.getId()}) }}" class="btn btn-primary" style="float:right;margin: 0; margin-right: 5px;">Modifier</a>
+        {% else %}
+            {% if comment in userReportedComments %}
+                <p style="float:right">Signalé</p>
+            {% else %}
+                <a href="{{ path('app_comment_report', {'id': comment.getId()}) }}" class="btn btn-warning" style="float:right;margin: 0;">Signaler</a>
+            {% endif %}
         {% endif %}
     </div>
 {% endfor %}

@@ -75,11 +75,18 @@ class PostController extends AbstractController
         
         $currentUser = $this->getUser();
 
+        $userReportedComments = [];
+        
+        foreach($currentUser->getReports() as $key => $report) {
+            $userReportedComments[] = $report->getComment();
+        }
+
         return $this->render('post/show.html.twig', [
             'post' => $post,
             'form' => $commentForm,
             'comments' => $commentsList?: null,
             'user' => $currentUser?: null,
+            'userReportedComments' => $userReportedComments,
         ]);
     }
 

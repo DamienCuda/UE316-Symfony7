@@ -1,5 +1,5 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
     <a href="{{ path('app_post_show', {'slug': post.slug}) }}" class="btn btn-secondary" style="margin-top: 5px;">Retour à l'article</a>
-    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-primary">{{ button_label|default('Signaler') }}</button>
 {{ form_end(form) }}
